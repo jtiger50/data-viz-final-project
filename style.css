@@ -82,3 +82,10 @@ button {
 .filler {
   color: #fffef4;
 }
+
+@media (max-width: 700px) {
+.well {
+  margin-left: 5%;
+  margin-right: 5%;
+  }
+}
