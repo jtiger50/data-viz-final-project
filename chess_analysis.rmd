@@ -1,0 +1,167 @@
+---
+title: "chess_analysis"
+output: html_document
+date: "2026-04-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+```{r}
+all_games <- read.csv("matches/all_games.csv")
+```
+
+```{r}
+all_games |>
+  group_by(White) |>
+  summarise(whiteplayer = n()) |>
+
+arrange(desc(whiteplayer))
+```
+
+```{r}
+all_games |>
+  filter(White == 'Mariorichard') |>
+  group_by(Black) |>
+  summarise(blackplayer = n()) |>
+
+arrange(desc(blackplayer))
+```
+
+```{r}
+mariorichard <- all_games |>
+  filter(White == 'Mariorichard' | Black == 'Mariorichard')
+
+mariorichard |>
+  group_by(White) |>
+  summarise(whiteplayer = n()) |>
+
+arrange(desc(whiteplayer))
+
+mariorichard |>
+  group_by(Black) |>
+  summarise(blackplayer = n()) |>
+
+arrange(desc(blackplayer))
+```
+
+```{r}
+all_games |>
+  group_by(White_Move_1) |>
+  summarise(first = n()) |>
+  
+arrange(desc(first))
+
+all_games |>
+  group_by(White_Move_2) |>
+  summarise(second = n()) |>
+  
+arrange(desc(second))
+
+all_games |>
+  group_by(White_Move_3) |>
+  summarise(third = n()) |>
+  
+arrange(desc(third))
+```
+
+```{r}
+eco_codes <- all_games |>
+  group_by(ECO) |>
+  summarise(eco_code = n()) |>
+
+arrange(desc(eco_code))
+```
+
+```{r}
+all_games |>
+  group_by(WhiteElo) |>
+  summarise(ELO = n()) |>
+
+arrange(desc(ELO))
+```
+
+```{r}
+elo <- all_games |>
+  mutate(
+    AvgElo = (WhiteElo + BlackElo) / 2,
+    EloGroup = case_when(
+      AvgElo >= 1000 & AvgElo < 1500 ~ "1000-1499",
+      AvgElo >= 1500 & AvgElo < 2000 ~ "1500-1999",
+      AvgElo >= 2000                  ~ "2000+",
+      .default = NA
+    )
+  )
+
+eco_by_group <- elo |>
+  filter(!is.na(EloGroup)) |>
+  group_by(EloGroup, ECO) |>
+  summarise(Count = n(), .groups = "drop") |>
+  group_by(EloGroup) |>
+  mutate(Proportion = Count / sum(Count)) |>
+  
+arrange(EloGroup, desc(Count))
+  
+write_csv(eco_by_group, "eco_by_elo_group.csv")
+```
+
+```{r}
+eco_results_by_group <- all_games |>
+  mutate(
+    AvgElo = (WhiteElo + BlackElo) / 2,
+    EloGroup = case_when(
+      AvgElo >= 1000 & AvgElo < 1500 ~ "1000-1499",
+      AvgElo >= 1500 & AvgElo < 2000 ~ "1500-1999",
+      AvgElo >= 2000                  ~ "2000+",
+      .default = NA
+    ),
+    Outcome = case_when(
+      Result == "1-0"     ~ "White_Win",
+      Result == "0-1"     ~ "Black_Win",
+      Result == "1/2-1/2" ~ "Draw",
+      .default = NA
+    )
+  ) |>
+  filter(!is.na(EloGroup), !is.na(Outcome)) |>
+  group_by(EloGroup, ECO, Outcome) |>
+  summarise(Count = n(), .groups = "drop") |>
+  group_by(EloGroup, ECO) |>
+  mutate(
+    TotalGames = sum(Count),
+    Proportion = Count / TotalGames
+  ) |>
+  pivot_wider(
+    names_from  = Outcome,
+    values_from = c(Count, Proportion),
+    values_fill = 0
+  ) |>
+  arrange(EloGroup, ECO)
+
+write_csv(eco_results_by_group, "eco_results_by_elo_group.csv")
+```

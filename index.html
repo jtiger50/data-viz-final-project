@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Chess is Easy</title>
+    <meta name="description" content="Scrollama: Sticky Overlay Example" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"/>
+    <style>
+      #scrolly {
+        position: relative;
+        background-color: #fffef4;
+        padding: 1rem;
+      }
+
+      article {
+        position: relative;
+        padding: 0;
+        max-width: 20rem;
+        margin: 0 auto;
+      }
+
+      .sticky-thing {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        z-index: 0;
+        top: 12.5vh;
+        height: 75vh;
+        /* Center everything inside */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sticky-thing p {
+        font-size: 40px;
+        font-weight: 400;
+        color: #111;
+        text-align: center;
+      }
+        
+        .sticky-thing a {
+        font-size: 40px;
+        font-weight: 400;
+        color: #111;
+        text-align: center;
+      }
+        
+        .sticky-thing img {
+            width: 400px;
+        }
+
+      .step {
+        margin: 0 auto 2rem auto;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .step:last-child {
+        margin-bottom: 0;
+      }
+
+      .step p {
+        text-align: center;
+        padding: 1rem;
+        font-size: 1.5rem;
+        background-color: #fffef4;
+        border: solid 2px black;
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+        
+        <section id="scrolly">
+        <div class="sticky-thing">
+          <p>A chess match can take a virtually infinite number of paths.</p>
+        </div>
+        </section>
+        
+        <div class="arrow">
+        <img src="arrow.png">
+        </div>
+        
+      <section id="scrolly">
+        <div class="sticky-thing">
+          <img src="board.png" class="sticky-image">
+        </div>
+
+        <article>
+          <div class="step">
+            <p>Billions of games have been played throughout history. Most of them are completely unique.</p>
+          </div>
+          <div class="spacer">
+          </div>
+          <div class="step">
+            <p>On the opening turn, white has 20 legal moves to choose from. So does black.</p>
+          </div>
+          <div class="spacer">
+          </div>
+        </article>
+      </section>
+        
+        <section id="scrolly">
+        <div class="sticky-thing">
+          <img src="400combos.png" class="sticky-image">
+        </div>
+
+        <article>
+          <div class="step">
+            <p>That amounts to 400 possible boards after only pushing around a couple of pieces.</p>
+          </div>
+          <div class="spacer">
+          </div>
+          <div class="step">
+            <p>But most of these moves are almost never played. Because they suck.</p>
+          </div>
+          <div class="spacer">
+          </div>
+        </article>
+      </section>
+        
+        <section id="scrolly">
+        <div class="sticky-thing">
+          <img src="e4e5.png" class="sticky-image">
+        </div>
+
+        <article>
+          <div class="step">
+            <p>In an analysis of 30,000 matches on the Free Internet Chess Server since 2020, nearly a third of games began the exact same way. Both players push a pawn into the center.</p>
+          </div>
+            <div class="spacer">
+          </div>
+            <div class="step">
+            <p>Very creative.</p>
+          </div>
+            <div class="spacer">
+          </div>
+        </article>
+      </section>
+        
+          <section id="scrolly">
+        <div class="sticky-thing">
+          <p>A chess match can take a virtually infinite number of paths. But like a daily commute driven hundres of times, chess players find themselves wearing out the same paths time and time again. They like sticking to the openings they know.</p>
+        </div>
+        </section>
+        
+        <section id="scrolly">
+        <div class="sticky-thing">
+            <a href="viz.html">Here are some of their favorites. And least favorites.</a>
+        </div>
+        </section>
+    </main>
+
+    <!-- <div class='debug'></div> -->
+    <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+  </body>
+</html>
